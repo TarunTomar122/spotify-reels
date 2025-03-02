@@ -8,7 +8,7 @@
 
 .music-nav-card {
   position: relative;
-  width: 320px;
+  width: 600px;
   height: 420px;
   background-color: rgba(30, 30, 30, 0.9);
   border-radius: 24px;
@@ -36,7 +36,7 @@
 .spotify-player-wrapper {
   position: relative;
   width: 100%;
-  max-width: 280px;
+  max-width: 540px;
   margin: 0 auto;
   border-radius: 12px;
   overflow: hidden;
@@ -148,10 +148,28 @@
 
 /* Media queries for responsiveness */
 @media (max-width: 768px) {
-  .hint.left, .hint.right {
+  /* .hint.left, .hint.right {
     display: none;
-  }
+  } */
   
+ .hint {
+    opacity: 1;
+ }
+
+  .hint.left {
+    left: 15px;
+    top: 20px;
+    transform: translateY(0);
+    max-width: 40%;
+  }
+
+  .hint.right {
+    right: 10px;
+    top: 20px;
+    transform: translateY(0);
+    max-width: 40%;
+  }
+
   .hint.up {
     bottom: -50px;
   }
@@ -172,8 +190,8 @@
   }
   
   .spotify-player-wrapper {
-    max-width: 100%;
-    width: 100%;
+    max-width: 90%;
+    width: 90%;
   }
   
   /* Make the card fill more of the screen */
