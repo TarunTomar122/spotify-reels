@@ -1,0 +1,307 @@
+.music-nav-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  perspective: 1000px;
+}
+
+.music-nav-card {
+  position: relative;
+  width: 320px;
+  height: 420px;
+  background-color: rgba(30, 30, 30, 0.9);
+  border-radius: 24px;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  cursor: grab;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.music-nav-card:hover {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  transform: translateY(-5px);
+}
+
+.music-nav-card:active {
+  cursor: grabbing;
+}
+
+.spotify-player-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.spotify-player-wrapper iframe {
+  border: none !important;
+  border-radius: 12px !important;
+}
+
+.gesture-hints {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.hint {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  font-weight: 500;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#spotify-iframe {
+}
+
+.music-nav-card:hover .hint {
+  opacity: 0.9;
+  transform: translateY(0);
+}
+
+.hint .arrow {
+  font-size: 1.8rem;
+  margin: 0 8px;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.hint .text {
+  letter-spacing: 0.5px;
+}
+
+.hint.left {
+  left: -216px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-10px);
+}
+
+.hint.right {
+  right: -160px;
+  top: 50%;
+  transform: translateY(-50%) translateX(10px);
+}
+
+.hint.up {
+  bottom: -70px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  flex-direction: column;
+}
+
+.music-nav-card:hover .hint.left {
+  transform: translateY(-50%) translateX(0);
+}
+
+.music-nav-card:hover .hint.right {
+  transform: translateY(-50%) translateX(0);
+}
+
+.music-nav-card:hover .hint.up {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Animation for swipe feedback */
+.swipe-left {
+  animation: swipeLeftAnim 0.5s ease;
+}
+
+.swipe-right {
+  animation: swipeRightAnim 0.5s ease;
+}
+
+.swipe-up {
+  animation: swipeUpAnim 0.5s ease;
+}
+
+@keyframes swipeLeftAnim {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-50px); }
+}
+
+@keyframes swipeRightAnim {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(50px); }
+}
+
+@keyframes swipeUpAnim {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-50px); }
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .hint.left, .hint.right {
+    display: none;
+  }
+  
+  .hint.up {
+    bottom: -50px;
+  }
+  
+  .music-nav-container {
+    height: auto;
+    width: 100%;
+    padding: 20px 0;
+  }
+  
+  .music-nav-card {
+    width: 90%;
+    max-width: 400px;
+    height: auto;
+    min-height: 380px;
+    margin: 0 auto;
+    padding: 15px;
+  }
+  
+  .spotify-player-wrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  /* Make the card fill more of the screen */
+  .music-nav-card:hover {
+    transform: none;
+  }
+  
+  /* Increase touch target size */
+  .spotify-player-wrapper iframe {
+    height: 180px;
+  }
+  
+  /* Make song info more visible on mobile */
+  .song-info-overlay {
+    opacity: 1;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+    padding: 12px;
+  }
+  
+  .song-info-overlay h3 {
+    font-size: 1.1rem;
+  }
+  
+  .song-info-overlay p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Add specific styles for very small screens */
+@media (max-width: 480px) {
+  .music-nav-card {
+    width: 100%;
+    border-radius: 18px;
+  }
+  
+  .hint.up {
+    bottom: -40px;
+    font-size: 0.8rem;
+  }
+  
+  .hint .arrow {
+    font-size: 1.5rem;
+  }
+}
+
+/* Add these styles to your existing CSS */
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 152px;
+  width: 100%;
+  color: white;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #1DB954; /* Spotify green */
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.song-info-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+  padding: 15px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.spotify-player-wrapper:hover .song-info-overlay {
+  opacity: 1;
+}
+
+.song-info-overlay h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.song-info-overlay p {
+  margin: 5px 0 0;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.play-button-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 12px;
+}
+
+.play-button {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.play-button:hover {
+  transform: scale(1.1);
+} 
