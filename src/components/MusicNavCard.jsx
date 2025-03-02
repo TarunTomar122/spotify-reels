@@ -26,7 +26,7 @@ export default function MusicNavCard({ onChangeGenre, onDifferentTypes, onMoreSa
   }, []);
 
   const handlers = useSwipeable({
-    onSwipedRight: async () => {
+    onSwipedLeft: async () => {
       setShowFeedback('left');
       setIsLoading(true);
       const randomSongData = await getARandomSongFromLastFM();
@@ -36,7 +36,7 @@ export default function MusicNavCard({ onChangeGenre, onDifferentTypes, onMoreSa
       setCurrentSong(randomSongData);
       setIsLoading(false);
     },
-    onSwipedLeft: async () => {
+    onSwipedRight: async () => {
       setShowFeedback('right');
       setIsLoading(true);
       const sameArtistData = await getSongsFromTheSameArtist(currentSong.artistName);
@@ -74,11 +74,11 @@ export default function MusicNavCard({ onChangeGenre, onDifferentTypes, onMoreSa
         <div className="gesture-hints">
           <div className="hint left">
             <span className="arrow">←</span>
-            <span className="text">more of the same artist</span>
+            <span className="text">a random song</span>
           </div>
           
           <div className="hint right">
-            <span className="text">a random song</span>
+            <span className="text">more of the same artist</span>
             <span className="arrow">→</span>
           </div>
           

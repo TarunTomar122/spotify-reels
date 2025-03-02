@@ -88,13 +88,13 @@
 }
 
 .hint.left {
-  left: -216px;
+  left: -166px;
   top: 50%;
   transform: translateY(-50%) translateX(-10px);
 }
 
 .hint.right {
-  right: -160px;
+  right: -220px;
   top: 50%;
   transform: translateY(-50%) translateX(10px);
 }
