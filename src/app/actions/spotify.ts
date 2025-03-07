@@ -129,3 +129,22 @@ export const getSongsFromTheSameArtist = async (artistName: string) => {
         ...trackInfo 
     };
 }
+
+export const getARandomSongFromLastFMByGenre = async (genre: string) => {
+    const genreFormatted = genre.replace(/ /g, '+');
+    const response = await fetch(`https://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag=${genreFormatted}&api_key=${process.env.NEXT_PUBLIC_LASTFM_API_KEY}&format=json`);
+    const data = await response.json();
+    const tracks = data.tracks.track;
+
+    console.log('tracks', `https://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag=${genreFormatted}&api_key=${process.env.NEXT_PUBLIC_LASTFM_API_KEY}&format=json`);
+
+    const randomTrack = tracks[Math.floor(Math.random() * tracks.length)];
+
+    const trackInfo = await getSpotifyTrackInfo(randomTrack.name, randomTrack.artist.name);
+
+    return { 
+        songName: randomTrack.name, 
+        artistName: randomTrack.artist.name, 
+        ...trackInfo 
+    };
+}

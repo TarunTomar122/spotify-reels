@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import './MusicNavCard.css';
-import { getARandomSongFromLastFM, getSimilarSongsFromLastFM, getSongsFromTheSameArtist } from '../app/actions/spotify';
+import { getARandomSongFromLastFM, getSimilarSongsFromLastFM, getSongsFromTheSameArtist, getARandomSongFromLastFMByGenre } from '../app/actions/spotify';
+import SpotifyIframePlayer from './SpotifyIframePlayer';
 
 export default function MusicNavCard({ onChangeGenre, onDifferentTypes, onMoreSame }) {
 
 
   const [showFeedback, setShowFeedback] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const [firstLoad, setFirstLoad] = useState(true);
+  const [currentGenre, setCurrentGenre] = useState('');
 
   const [currentSong, setCurrentSong] = useState({
     songName: '',
@@ -46,14 +50,35 @@ export default function MusicNavCard({ onChangeGenre, onDifferentTypes, onMoreSa
     onSwipedUp: async () => {
       setShowFeedback('up');
       setIsLoading(true);
-      const similarSongData = await getSimilarSongsFromLastFM(currentSong.songName, currentSong.artistName);
-      setCurrentSong(similarSongData);
+
+      const randomChance = Math.random();
+
+      if (randomChance < 0.2) {
+        console.log('getting songs by artist type');
+        const similarSongData = await getSimilarSongsFromLastFM(currentSong.songName, currentSong.artistName);
+        setCurrentSong(similarSongData);
+      } else {
+        console.log('getting random song by genre');
+        const randomSongData = await getARandomSongFromLastFMByGenre(currentGenre);
+        setCurrentSong(randomSongData);
+      }
       setIsLoading(false);
     },
     preventDefaultTouchmoveEvent: true,
     trackMouse: true
   });
 
+  const handleGenreChange = (genre) => {
+    console.log('Genre changed to:', genre);
+    // Add your logic here to handle the genre change
+    getARandomSongFromLastFMByGenre(genre).then((data) => {
+      console.log('data', genre);
+      setCurrentSong(data);
+      setIsLoading(false);
+      setFirstLoad(false);
+      setCurrentGenre(genre);
+    });
+  };
 
   return (
     <div className="music-nav-container">
@@ -65,13 +90,18 @@ export default function MusicNavCard({ onChangeGenre, onDifferentTypes, onMoreSa
               <p>Loading song...</p>
             </div>
           ) : (
-            <>
-              <div dangerouslySetInnerHTML={{ __html: currentSong.embedHtml }} id="spotify-iframe"/>
-            </>
+            <SpotifyIframePlayer 
+              trackId={currentSong.trackId}
+              songName={currentSong.songName}
+              artistName={currentSong.artistName}
+              albumArt={currentSong.albumArt}
+              onGenreChange={handleGenreChange}
+              firstLoad={firstLoad}
+            />
           )}
         </div>
         
-        <div className="gesture-hints">
+        {/* <div className="gesture-hints">
           <div className="hint left">
             <span className="arrow">←</span>
             <span className="text">a random song</span>
@@ -86,7 +116,7 @@ export default function MusicNavCard({ onChangeGenre, onDifferentTypes, onMoreSa
             <span className="arrow">↑</span>
             <span className="text">more of the same kind</span>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -24,8 +24,6 @@ export default function Page() {
 
   return (
     <div className="home-page">
-      <h1>Music Explorer</h1>
-      
       <MusicNavCard 
         onChangeGenre={handleChangeGenre}
         onDifferentTypes={handleDifferentTypes}
