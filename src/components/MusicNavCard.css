@@ -1,14 +1,12 @@
 .music-nav-container {
   display: flex;
   justify-content: center;
-  height: 400px;
   perspective: 1000px;
 }
 
 .music-nav-card {
   position: relative;
   width: 600px;
-  height: 800px;
   border-radius: 24px;
   display: flex;
   flex-direction: column;
@@ -23,13 +21,15 @@
   cursor: grabbing;
 }
 
+
 .spotify-player-wrapper {
   position: relative;
   width: 100%;
-  max-width: 540px;
+  align-items: center;
   margin: 0 auto;
   border-radius: 12px;
   overflow: hidden;
+  max-height: 80vh;
 }
 
 .spotify-player-wrapper iframe {
@@ -174,17 +174,17 @@
 
   
   .music-nav-container {
-    height: 90vh;
+    height: 80vh;
     width: 100%;
   }
   
   .music-nav-card {
-    width: 90%;
-    max-width: 400px;
+    width: 100vw;
     min-height: 380px;
     height: 100%;
     margin: 0 auto;
     padding: 0px;
+    
   }
   
   .spotify-player-wrapper {

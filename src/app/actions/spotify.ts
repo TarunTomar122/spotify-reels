@@ -75,11 +75,14 @@ export const getARandomSongFromLastFM = async () => {
         const songName = randomSong.name;
         const artistName = randomSong.artist.name;
         const trackInfo = await getSpotifyTrackInfo(songName, artistName);
+
+        const genreName = randomTag.name;
         
         return { 
             songName, 
             artistName, 
-            ...trackInfo 
+            ...trackInfo,
+            genreName
         };
     } catch(error) {
         console.error('Error getting a random song from LastFM:', error);
@@ -108,10 +111,13 @@ export const getSimilarSongsFromLastFM = async (songName: string, artistName: st
     const randomSong = similarSongs[Math.floor(Math.random() * similarSongs.length)];
     const trackInfo = await getSpotifyTrackInfo(randomSong.name, randomSong.artist.name);
 
+    const genreName = topTag;
+
     return { 
         songName: randomSong.name, 
         artistName: randomSong.artist.name, 
-        ...trackInfo 
+        ...trackInfo,
+        genreName
     };
 }
 
@@ -123,10 +129,20 @@ export const getSongsFromTheSameArtist = async (artistName: string) => {
 
     const trackInfo = await getSpotifyTrackInfo(randomSong.name, randomSong.artist.name);
 
+    // get tags from the track
+    const tagsResponse = await fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getTopTags&artist=${artistName}&track=${randomSong.name}&api_key=${process.env.NEXT_PUBLIC_LASTFM_API_KEY}&format=json`);
+    const tagsData = await tagsResponse.json();
+
+    console.log('tagsData', tagsData);
+    const tags = tagsData.toptags.tag;
+
+    const genreName = tags[Math.floor(Math.random() * tags.length)].name;
+
     return { 
         songName: randomSong.name, 
         artistName: randomSong.artist.name, 
-        ...trackInfo 
+        ...trackInfo,
+        genreName
     };
 }
 
@@ -141,10 +157,12 @@ export const getARandomSongFromLastFMByGenre = async (genre: string) => {
     const randomTrack = tracks[Math.floor(Math.random() * tracks.length)];
 
     const trackInfo = await getSpotifyTrackInfo(randomTrack.name, randomTrack.artist.name);
+    const genreName = genre;
 
     return { 
         songName: randomTrack.name, 
         artistName: randomTrack.artist.name, 
-        ...trackInfo 
+        ...trackInfo,
+        genreName
     };
 }
