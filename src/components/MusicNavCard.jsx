@@ -34,7 +34,7 @@ export default function MusicNavCard({ onChangeGenre, onDifferentTypes, onMoreSa
 
     const randomChance = Math.random();
 
-    if (randomChance < 0.2) {
+    if (randomChance < 0.05) {
       // console.log('getting songs by artist type');
       const similarSongData = await getSimilarSongsFromLastFM(currentSong.songName, currentSong.artistName);
       setCurrentGenre(similarSongData.genreName);
